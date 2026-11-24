@@ -1,0 +1,21 @@
+[package]
+name = "ace-role-cluster"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+publish.workspace = true
+
+[lints]
+workspace = true
+
+[features]
+default = []
+codec_ace = ["ace-codec/ace", "dep:ace-serialize", "dep:ace-serialize-derive"]
+
+[dependencies]
+ace-codec.workspace = true
+ace-serialize = { workspace = true, optional = true }
+ace-serialize-derive = { workspace = true, optional = true }
+
+[dev-dependencies]
+sha2 = "0.10.9"

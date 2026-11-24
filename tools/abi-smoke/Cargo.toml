@@ -1,0 +1,13 @@
+[package]
+name = "ace-abi-smoke"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+publish.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+abi_stable.workspace = true
+ace-fixture-interface.workspace = true

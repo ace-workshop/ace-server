@@ -1,0 +1,36 @@
+# 可运行的本地测试组合，不是第四个内置服务，也不开放网络。
+revision = 1
+node = 1
+sequence_block = 4
+libraries = ["runtime_caller", "runtime_echo"]
+actions = [
+  { kind = "create", alias = "echo" }, { kind = "create", alias = "caller" },
+  { kind = "prepare", alias = "caller" }, { kind = "prepare", alias = "echo" },
+  { kind = "start", alias = "echo" }, { kind = "start", alias = "caller" },
+  { kind = "create", alias = "handoff" }, { kind = "prepare", alias = "handoff" },
+  { kind = "start", alias = "handoff" },
+]
+[budgets]
+workers = 4
+instances = 5
+mailbox_entries = 4
+payload_bytes = 8192
+task_slots = 2
+polls_per_turn = 1
+control_slots = 4
+timeout_ms = 4000
+[[instances]]
+implementation = "test.echo"
+alias = "echo"
+config = "timer-init"
+[[instances]]
+implementation = "test.caller"
+alias = "caller"
+manage = ["test.echo", "test.caller"]
+prepare_dependencies = ["echo"]
+config = "dependency"
+[[instances]]
+implementation = "test.echo"
+alias = "handoff"
+manage = ["test.echo"]
+config = ""

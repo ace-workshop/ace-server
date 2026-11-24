@@ -1,0 +1,70 @@
+# 回环演示：三个内置实现与一个无角色的样例业务。真实部署应另行配置端点及身份。
+revision = 1
+node = 1
+sequence_block = 256
+libraries = ["ace_service_cluster", "ace_service_gateway", "ace_service_watchdog", "ace_fixture_player"]
+actions = [
+  { kind = "create", alias = "members" }, { kind = "prepare", alias = "members" },
+  { kind = "start", alias = "members" },
+  { kind = "create", alias = "player" }, { kind = "prepare", alias = "player" },
+  { kind = "start", alias = "player" },
+  { kind = "create", alias = "sessions" }, { kind = "create", alias = "gate" },
+  { kind = "prepare", alias = "gate" }, { kind = "prepare", alias = "sessions" },
+  { kind = "start", alias = "sessions" }, { kind = "start", alias = "gate" },
+]
+
+# 两组内按列出的别名顺序，中间收回业务、策略和动态实例。
+[shutdown]
+first = ["gate"]
+last = ["sessions", "members"]
+cancel_after_ms = 4000
+timeout_ms = 5000
+
+[peers]
+advertised = "127.0.0.1:44001"
+allow = [{ ip = "127.0.0.1", nodes = [1, 1], ports = [44001, 44001] }]
+
+[budgets]
+mailbox_entries = 256
+payload_bytes = 1048576
+task_slots = 64
+polls_per_turn = 32
+net_idle_ms = 1500
+
+[[instances]]
+implementation = "cluster"
+alias = "members"
+role = "cluster"
+grants = { peer_control = true }
+config = '''
+seed = 1
+seed_endpoint = "127.0.0.1:44001"
+ports = [44001, 44001]
+'''
+
+[[instances]]
+implementation = "example.player"
+alias = "player"
+config = "echo"
+
+[[instances]]
+implementation = "gateway"
+alias = "gate"
+role = "gateway"
+grants = { player_entry = true }
+config = '''
+tcp = "127.0.0.1:0"
+kcp = "127.0.0.1:0"
+watchdog_alias = "sessions"
+online_aliases = ["player"]
+'''
+
+[[instances]]
+implementation = "watchdog"
+alias = "sessions"
+role = "watchdog"
+prepare_dependencies = ["gate"]
+config = '''
+gate_alias = "gate"
+default_target_alias = "player"
+'''

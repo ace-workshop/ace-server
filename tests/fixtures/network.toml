@@ -1,0 +1,31 @@
+# 两个独立 owner 共用同一宿主。默认只绑定回环临时端口，正常消费关闭记录。
+revision = 1
+node = 1
+sequence_block = 4
+libraries = ["ace_fixture_policy"]
+actions = [
+  { kind = "create", alias = "owner" }, { kind = "prepare", alias = "owner" },
+  { kind = "start", alias = "owner" }, { kind = "create", alias = "other" },
+  { kind = "prepare", alias = "other" }, { kind = "start", alias = "other" },
+]
+[budgets]
+workers = 2
+instances = 2
+mailbox_entries = 4
+payload_bytes = 8192
+task_slots = 2
+polls_per_turn = 1
+control_slots = 4
+net_listeners = 5
+net_connections = 3
+net_buffer_bytes = 2700000
+net_frame_bytes = 149352
+net_idle_ms = 1500
+[[instances]]
+implementation = "test.policy"
+alias = "owner"
+config = "network"
+[[instances]]
+implementation = "test.policy"
+alias = "other"
+config = "network"

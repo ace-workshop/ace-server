@@ -1,0 +1,25 @@
+[package]
+name = "ace-fixture-echo"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+publish.workspace = true
+
+[lints]
+workspace = true
+
+[lib]
+crate-type = ["cdylib"]
+
+[features]
+default = ["codec_ace"]
+codec_ace = ["ace-fixture-model/codec_ace"]
+
+[dependencies]
+abi_stable.workspace = true
+ace-fixture-interface.workspace = true
+ace-fixture-model = { path = "../model", default-features = false }
+
+[[example]]
+name = "runtime_echo"
+crate-type = ["cdylib"]

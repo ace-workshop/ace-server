@@ -1,0 +1,25 @@
+[package]
+name = "ace-fixture-player"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+publish.workspace = true
+
+[lints]
+workspace = true
+
+[lib]
+crate-type = ["cdylib"]
+
+[features]
+default = ["codec_ace"]
+codec_ace = ["ace-server-sdk/codec_ace", "ace-example-protocol/codec_ace", "ace-role-gateway/codec_ace", "ace-role-watchdog/codec_ace"]
+
+[dependencies]
+abi_stable.workspace = true
+ace-net-proto.workspace = true
+ace-server-sdk.workspace = true
+ace-example-protocol = { path = "../../../protocols/example", default-features = false, features = ["local"] }
+ace-role-gateway = { path = "../../../services/gateway/protocol", default-features = false, features = ["local"] }
+ace-role-watchdog = { path = "../../../services/watchdog/protocol", default-features = false }
+ace-fixture-codec = { path = "../codec", features = ["player"] }

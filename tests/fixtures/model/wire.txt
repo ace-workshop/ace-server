@@ -1,0 +1,1 @@
+ace.fixture.sample/v1;0:u64:id;1:utf8:text;2:vec<u32>:samples;ace/packed/rev1

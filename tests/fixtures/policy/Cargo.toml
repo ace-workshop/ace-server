@@ -1,0 +1,64 @@
+[package]
+name = "ace-fixture-policy"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+publish.workspace = true
+
+[lints]
+workspace = true
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+ace-net-proto.workspace = true
+ace-server-sdk.workspace = true
+abi_stable.workspace = true
+ace-example-protocol = { path = "../../../protocols/example", default-features = false, features = ["local"] }
+ace-fixture-codec = { path = "../codec" }
+
+[features]
+default = ["codec_ace"]
+codec_ace = ["ace-server-sdk/codec_ace", "ace-example-protocol/codec_ace", "ace-gateway/codec_ace", "ace-watchdog/codec_ace", "ace-cluster/codec_ace"]
+
+[dev-dependencies]
+toml = { version = "1.2", default-features = false, features = ["std", "parse"] }
+ace-gateway = { path = "../../../services/gateway", default-features = false }
+ace-watchdog = { path = "../../../services/watchdog", default-features = false }
+ace-role-gateway = { path = "../../../services/gateway/protocol", default-features = false }
+ace-role-watchdog = { path = "../../../services/watchdog/protocol", default-features = false }
+ace-role-cluster = { path = "../../../services/cluster/protocol", default-features = false }
+ace-cluster = { path = "../../../services/cluster", default-features = false }
+ace-fixture-codec = { path = "../codec", features = ["cluster", "player"] }
+
+[[example]]
+name = "fixed_cluster"
+crate-type = ["cdylib"]
+
+[[example]]
+name = "fixed_gateway"
+crate-type = ["cdylib"]
+
+[[example]]
+name = "fixed_watchdog"
+crate-type = ["cdylib"]
+
+[[example]]
+name = "bounded_gateway"
+crate-type = ["cdylib"]
+required-features = ["codec_ace"]
+
+[[example]]
+name = "policy_watchdog"
+crate-type = ["cdylib"]
+
+[[example]]
+name = "export_cluster"
+crate-type = ["cdylib"]
+required-features = ["codec_ace"]
+
+[[example]]
+name = "incompatible_watchdog"
+crate-type = ["cdylib"]
+required-features = ["codec_ace"]

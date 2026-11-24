@@ -1,0 +1,20 @@
+[package]
+name = "ace-test-client"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+publish.workspace = true
+
+[lints]
+workspace = true
+
+[features]
+default = ["codec_ace"]
+codec_ace = ["ace-codec/ace", "ace-example-protocol/codec_ace"]
+
+[dependencies]
+ace-transport.workspace = true
+ace-net-proto.workspace = true
+ace-codec.workspace = true
+ace-fixture-codec = { path = "../../tests/fixtures/codec" }
+ace-example-protocol = { path = "../../protocols/example" }

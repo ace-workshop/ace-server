@@ -1,0 +1,37 @@
+[workspace]
+resolver = "3"
+members = [
+    "kernel/*", "sdk", "protocols/net", "protocols/codec", "protocols/example",
+    "services/*", "services/*/protocol", "services/*/plugin",
+    "tests/fixtures/*", "tools/abi-smoke", "tools/test-client",
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.98.1"
+publish = false
+
+[workspace.lints.rust]
+missing_docs = "warn"
+unsafe_op_in_unsafe_fn = "deny"
+
+[workspace.lints.clippy]
+undocumented_unsafe_blocks = "deny"
+todo = "deny"
+
+[workspace.dependencies]
+ace-transport = { path = "kernel/transport" }
+ace-fixture-interface = { path = "tests/fixtures/interface" }
+abi_stable = { version = "=0.11.3", default-features = false }
+ace-server-local = { path = "kernel/local" }
+ace-server-abi = { path = "kernel/abi" }
+ace-server-sdk = { path = "sdk", default-features = false }
+ace-net-proto = { path = "protocols/net" }
+ace-codec = { path = "protocols/codec", default-features = false }
+ace-serialize = { git = "https://github.com/ace-workshop/ace-serialize.git", rev = "4a18e69aef27d79c155a30bec4b13abb16c635b2", default-features = false }
+ace-serialize-derive = { git = "https://github.com/ace-workshop/ace-serialize.git", rev = "4a18e69aef27d79c155a30bec4b13abb16c635b2" }
+
+[profile.release]
+overflow-checks = true
+panic = "unwind"

@@ -1,0 +1,21 @@
+[package]
+name = "ace-server-sdk"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+publish.workspace = true
+
+[lints]
+workspace = true
+
+[features]
+default = ["codec_ace"]
+codec_ace = ["ace-codec/ace"]
+
+[dependencies]
+ace-server-abi = { workspace = true, features = ["native"] }
+abi_stable.workspace = true
+ace-net-proto.workspace = true
+ace-codec.workspace = true
+ace-server-local.workspace = true
+futures-channel = { version = "0.3.34", default-features = false, features = ["std"] }

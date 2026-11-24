@@ -1,0 +1,6 @@
+target/
+.DS_Store
+/.idea/
+/.cargo/config.local.toml
+/PLAN.md
+/docs/evidence/

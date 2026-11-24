@@ -1,0 +1,27 @@
+[package]
+name = "ace-fixture-codec"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+publish.workspace = true
+
+[lints]
+workspace = true
+
+[features]
+default = []
+player = ["dep:ace-role-gateway", "dep:ace-role-watchdog"]
+sample_ace = ["dep:ace-serialize", "dep:ace-serialize-derive"]
+cluster = ["dep:ace-role-cluster"]
+
+[dependencies]
+ace-codec.workspace = true
+ace-role-gateway = { path = "../../../services/gateway/protocol", default-features = false, optional = true }
+ace-role-watchdog = { path = "../../../services/watchdog/protocol", default-features = false, optional = true }
+ace-serialize = { workspace = true, optional = true }
+ace-serialize-derive = { workspace = true, optional = true }
+ace-example-protocol = { path = "../../../protocols/example", default-features = false }
+ace-role-cluster = { path = "../../../services/cluster/protocol", default-features = false, optional = true }
+
+[dev-dependencies]
+ace-net-proto.workspace = true

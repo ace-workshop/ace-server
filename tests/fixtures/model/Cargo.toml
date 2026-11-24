@@ -1,0 +1,26 @@
+[package]
+name = "ace-fixture-model"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+publish.workspace = true
+
+[lints]
+workspace = true
+
+[features]
+default = ["codec_ace"]
+codec_ace = ["ace-codec/ace", "ace-fixture-codec/sample_ace", "ace-role-cluster/codec_ace"]
+
+[dependencies]
+ace-net-proto.workspace = true
+ace-role-cluster = { path = "../../../services/cluster/protocol", default-features = false }
+ace-server-sdk.workspace = true
+ace-codec.workspace = true
+ace-fixture-codec = { path = "../codec", features = ["cluster"] }
+abi_stable.workspace = true
+ace-fixture-interface.workspace = true
+ace-server-local.workspace = true
+
+[dev-dependencies]
+sha2 = "0.10.9"
